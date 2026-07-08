@@ -17,6 +17,24 @@ Object.defineProperty(window, "matchMedia", {
   }),
 });
 
+// jsdom lacks IntersectionObserver — framer-motion whileInView needs it.
+class MockIntersectionObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords() {
+    return [];
+  }
+}
+Object.defineProperty(window, "IntersectionObserver", {
+  writable: true,
+  value: MockIntersectionObserver,
+});
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  writable: true,
+  value: MockIntersectionObserver,
+});
+
 // next/image → plain <img> in tests (drop Next-only props).
 vi.mock("next/image", () => ({
   default: ({ fill, priority, sizes, ...props }: Record<string, unknown>) =>
