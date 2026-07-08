@@ -1,4 +1,5 @@
 import { CardSwap } from "@/components/hero/CardSwap";
+import { KineticHeading } from "@/components/motion/KineticHeading";
 import { LightBeamButton } from "@/components/ui/LightBeamButton";
 import { siteContent } from "@/lib/content";
 import type { FlagshipProject } from "@/lib/types";
@@ -19,9 +20,10 @@ export function Hero() {
   return (
     <section className="flex w-full max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
       <div className="flex-1 text-center lg:text-left">
-        <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          {siteContent.headline}
-        </h1>
+        <KineticHeading
+          text={siteContent.headline}
+          className="text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+        />
         <p className="mt-5 text-lg text-muted sm:text-xl">{siteContent.role}</p>
         <p className="mt-3 inline-flex items-center rounded-full border border-surface-border bg-surface px-4 py-1.5 text-sm text-muted">
           {siteContent.subhead}
