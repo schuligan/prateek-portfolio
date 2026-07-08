@@ -38,6 +38,8 @@ function ProjectCard({ project }: { project: Project }) {
       {project.kind === "flagship" && (
         <a
           href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
         >
           View live
@@ -46,6 +48,8 @@ function ProjectCard({ project }: { project: Project }) {
       {project.kind === "repo" && (
         <a
           href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
         >
           View repo
@@ -56,9 +60,10 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 /**
- * Renders the site's typed content (see `lib/content.ts`). No copy is
- * hardcoded here — this is a data-wiring pass (Epic 3); rich cards and
- * motion land in Epics 4/6.
+ * Renders the site's typed content (see `lib/content.ts`). All
+ * positioning-governed copy comes from `siteContent`; only presentational
+ * labels (section headings, CTA text) are inline. Data-wiring pass (Epic 3);
+ * rich cards and motion land in Epics 4/6.
  */
 export default function Home() {
   const groupedProjects = groupProjectsByKind(siteContent.projects);
