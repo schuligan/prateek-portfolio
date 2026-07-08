@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero/Hero";
 import { Stars } from "@/components/ambient/Stars";
 import { Cursor } from "@/components/ui/Cursor";
 import { Loader } from "@/components/ui/Loader";
+import { HorizontalScroll } from "@/components/scroll/HorizontalScroll";
 import { siteContent } from "@/lib/content";
 import type { Project, ProjectKind } from "@/lib/types";
 
@@ -13,15 +14,11 @@ const KIND_LABELS: Record<ProjectKind, string> = {
   current: "Currently",
 };
 
-const KIND_ORDER: ProjectKind[] = [
-  "flagship",
-  "repo",
-  "capability",
-  "current",
-];
+// Flagship is showcased in the Hero deck, so it is not repeated as a panel.
+const PANEL_KINDS: ProjectKind[] = ["repo", "capability", "current"];
 
-function groupProjectsByKind(projects: Project[]): [ProjectKind, Project[]][] {
-  return KIND_ORDER.map((kind): [ProjectKind, Project[]] => [
+function panelGroups(projects: Project[]): [ProjectKind, Project[]][] {
+  return PANEL_KINDS.map((kind): [ProjectKind, Project[]] => [
     kind,
     projects.filter((project) => project.kind === kind),
   ]).filter(([, group]) => group.length > 0);
@@ -60,14 +57,38 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
+function ProjectPanel({ kind, group }: { kind: ProjectKind; group: Project[] }) {
+  return (
+    <section aria-labelledby={`${kind}-heading`} className="w-full max-w-4xl">
+      <h2
+        id={`${kind}-heading`}
+        className="mb-6 text-sm uppercase tracking-[0.3em] text-muted"
+      >
+        {KIND_LABELS[kind]}
+      </h2>
+      <ul className="grid gap-4 sm:grid-cols-2">
+        {group.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /**
- * Renders the site's typed content (see `lib/content.ts`). All
- * positioning-governed copy comes from `siteContent`; only presentational
- * labels (section headings, CTA text) are inline. Data-wiring pass (Epic 3);
- * rich cards and motion land in Epics 4/6.
+ * Home — the shell (fixed ambient + cursor + loader) plus the horizontal-
+ * scroll panel track: Hero, then one panel per project group. The scroll is
+ * progressive enhancement (see HorizontalScroll) — vertical everywhere by
+ * default, horizontal on fine-pointer desktop with motion allowed.
  */
 export default function Home() {
-  const groupedProjects = groupProjectsByKind(siteContent.projects);
+  const groups = panelGroups(siteContent.projects);
+  const panels = [
+    <Hero key="hero" />,
+    ...groups.map(([kind, group]) => (
+      <ProjectPanel key={kind} kind={kind} group={group} />
+    )),
+  ];
 
   return (
     <>
@@ -76,26 +97,8 @@ export default function Home() {
       <Stars />
       <Aurora />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center px-6 py-32">
-        <Hero />
-
-        <div className="mt-20 w-full max-w-4xl space-y-16">
-          {groupedProjects.map(([kind, group]) => (
-            <section key={kind} aria-labelledby={`${kind}-heading`}>
-              <h2
-                id={`${kind}-heading`}
-                className="mb-6 text-sm uppercase tracking-[0.3em] text-muted"
-              >
-                {KIND_LABELS[kind]}
-              </h2>
-              <ul className="grid gap-4 sm:grid-cols-2">
-                {group.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+      <main className="relative z-10">
+        <HorizontalScroll panels={panels} />
       </main>
     </>
   );
