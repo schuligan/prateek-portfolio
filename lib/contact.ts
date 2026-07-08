@@ -7,8 +7,8 @@ export const contact = {
   bookUrl: "https://cal.com/prateek-jha",
   email: "masters.prateek@gmail.com",
   github: "https://github.com/schuligan",
+  linkedin: "https://www.linkedin.com/in/prateekjha6",
   // No résumé link by design — the CTAs are Book a call + Send email.
-  // LinkedIn intentionally omitted until the real vanity URL is confirmed.
 };
 
 /** Models + tools orchestrated — positions AI fluency, not programming stacks. */
