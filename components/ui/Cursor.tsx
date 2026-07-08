@@ -33,6 +33,7 @@ export function Cursor() {
     let frame = 0;
 
     const handlePointerMove = (event: PointerEvent) => {
+      dot.style.opacity = "1";
       targetX = event.clientX;
       targetY = event.clientY;
       const hoveredInteractive = (event.target as Element | null)?.closest(
@@ -69,7 +70,7 @@ export function Cursor() {
     <div
       ref={dotRef}
       aria-hidden="true"
-      className="cursor-dot pointer-events-none fixed left-0 top-0 z-50 h-8 w-8 rounded-full bg-white [mix-blend-mode:difference]"
+      className="cursor-dot pointer-events-none fixed left-0 top-0 z-50 h-8 w-8 rounded-full bg-white opacity-0 [mix-blend-mode:difference]"
     />
   );
 }

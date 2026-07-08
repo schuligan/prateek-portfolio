@@ -1,37 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const STREAK_COUNT = 8;
-const MIN_VISIBLE_MS = 500;
 
 /**
  * Loader — hyper-speed page-load overlay in the ink+aqua palette. A ring of
- * thin aqua streaks fires outward on a staggered CSS animation loop; the
- * whole thing fades out once the page has settled. Under reduced-motion the
- * global rule in app/globals.css collapses the streak animation to a static
- * frame, so this only ever adds a fade transition, never motion.
+ * thin aqua streaks fires outward on a staggered CSS loop; the overlay then
+ * dismisses itself via the CSS `loader-dismiss` animation, so content is
+ * reachable even with JS disabled or hydration failed. `onAnimationEnd`
+ * unmounts it once dismissed (progressive enhancement). Under reduced-motion
+ * the global rule collapses the animations, so it clears near-instantly.
  */
 export function Loader() {
-  const [visible, setVisible] = useState(true);
-  const [fading, setFading] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setFading(true), MIN_VISIBLE_MS);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  if (!visible) return null;
+  const [done, setDone] = useState(false);
+  if (done) return null;
 
   return (
     <div
       role="status"
       aria-label="Loading"
-      onTransitionEnd={() => {
-        if (fading) setVisible(false);
+      onAnimationEnd={(event) => {
+        if (event.animationName.includes("loader-dismiss")) setDone(true);
       }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-ground transition-opacity duration-300"
-      style={{ opacity: fading ? 0 : 1, pointerEvents: fading ? "none" : "auto" }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ground"
+      style={{ animation: "loader-dismiss 0.4s ease-out 0.7s forwards" }}
     >
       <div className="relative h-24 w-24">
         {Array.from({ length: STREAK_COUNT }, (_, index) => (

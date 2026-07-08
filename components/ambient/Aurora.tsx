@@ -1,6 +1,6 @@
 /**
- * Aurora — fixed ambient background: two large blurred radial blobs (aqua
- * top-left, faint magenta bottom-right) plus a central aqua-tinted glow.
+ * Aurora — fixed ambient background: two large blurred aqua radial blobs
+ * (top-left brighter, bottom-right fainter) plus a central aqua-tinted glow.
  * Pure CSS, no interactivity — safe as a server component. Motion is a slow
  * "breathing" drift on transform/opacity only, frozen under reduced-motion
  * via the global rule in app/globals.css.
@@ -23,7 +23,7 @@ export function Aurora() {
         className="absolute -bottom-[20%] -right-[10%] h-[560px] w-[560px] rounded-full blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklch, var(--color-spark) 28%, transparent) 0%, transparent 72%)",
+            "radial-gradient(circle, color-mix(in oklch, var(--color-accent) 30%, transparent) 0%, transparent 72%)",
           animation: "aurora-drift 28s ease-in-out infinite",
           animationDelay: "-6s",
         }}
