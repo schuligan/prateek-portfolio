@@ -63,7 +63,7 @@ export function CardSwap({ projects }: CardSwapProps) {
               rel="noopener noreferrer"
               aria-hidden={!isFront}
               tabIndex={isFront ? 0 : -1}
-              className="absolute inset-0 flex flex-col justify-end rounded-3xl border border-surface-border p-6 backdrop-blur-xl transition-all duration-500 ease-out"
+              className="card-sheen absolute inset-0 flex flex-col justify-end overflow-hidden rounded-3xl border border-surface-border p-6 backdrop-blur-xl transition-all duration-500 ease-out"
               style={{
                 transform: `translateY(${style.y}px) scale(${style.scale})`,
                 opacity: style.opacity,
