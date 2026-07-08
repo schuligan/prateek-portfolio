@@ -52,6 +52,7 @@ function RepoGrid({
           hook={repo.hook}
           useCase={repo.useCase}
           githubUrl={repo.githubUrl}
+          thumbSrc={`/repo-thumbs/${repoNameFromUrl(repo.githubUrl)}.webp`}
           stars={meta[repoNameFromUrl(repo.githubUrl)]?.stars}
         />
       ))}
