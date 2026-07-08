@@ -1,5 +1,6 @@
 import type { SiteContent } from "./types";
 import { projects } from "./projects";
+import { impactCards } from "./impact";
 
 // Persona variants deferred post-launch — this base content is the single
 // source of truth; a persona override layer can wrap it later.
@@ -10,5 +11,5 @@ export const siteContent: SiteContent = {
   humanLine:
     "On weekends I ship small games, just to keep my hands in the work.",
   projects,
-  impactCards: [], // TODO Epic 7: populated from vetted résumé data
+  impactCards,
 };
