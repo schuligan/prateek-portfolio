@@ -1,4 +1,5 @@
 import { Aurora } from "@/components/ambient/Aurora";
+import { Hero } from "@/components/hero/Hero";
 import { Stars } from "@/components/ambient/Stars";
 import { Cursor } from "@/components/ui/Cursor";
 import { Loader } from "@/components/ui/Loader";
@@ -76,19 +77,7 @@ export default function Home() {
       <Aurora />
 
       <main className="relative z-10 flex flex-1 flex-col items-center px-6 py-32">
-        <div className="w-full max-w-3xl rounded-3xl border border-surface-border bg-surface px-10 py-12 text-center backdrop-blur-xl">
-          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-muted">
-            Portfolio
-          </p>
-          <h1 className="text-5xl font-semibold tracking-tight text-ink sm:text-6xl">
-            {siteContent.headline}
-          </h1>
-          <p className="mt-4 text-lg text-muted sm:text-xl">
-            {siteContent.role}
-          </p>
-          <p className="mt-2 text-sm text-muted">{siteContent.subhead}</p>
-          <p className="mt-6 text-sm text-muted">{siteContent.humanLine}</p>
-        </div>
+        <Hero />
 
         <div className="mt-20 w-full max-w-4xl space-y-16">
           {groupedProjects.map(([kind, group]) => (

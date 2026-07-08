@@ -118,6 +118,52 @@ h6 {
   }
 }
 
+/* LightBeam button — rotating conic-gradient border via @property. */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+.light-beam {
+  position: relative;
+  display: inline-flex;
+  border-radius: 9999px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0% 42%,
+    var(--color-accent) 50%,
+    transparent 58% 100%
+  );
+  animation: beam-spin 3s linear infinite;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.light-beam:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 24px -6px var(--color-accent);
+}
+
+.light-beam-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: inherit;
+  background: var(--color-ground);
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
