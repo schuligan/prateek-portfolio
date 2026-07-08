@@ -27,6 +27,8 @@ function CoreMesh() {
   useFrame((state) => {
     const g = group.current;
     if (!g) return;
+    // Skip work while the tab is backgrounded (battery).
+    if (typeof document !== "undefined" && document.hidden) return;
     const t = state.clock.elapsedTime;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const scroll = max > 0 ? window.scrollY / max : 0;
@@ -48,7 +50,7 @@ function CoreMesh() {
 
   return (
     <group ref={group}>
-      <Sphere args={[1, 128, 128]}>
+      <Sphere args={[1, 96, 96]}>
         <MeshDistortMaterial
           ref={matRef}
           color="#0b3b3a"
