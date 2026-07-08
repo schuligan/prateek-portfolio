@@ -4,12 +4,14 @@ import { Stars } from "@/components/ambient/Stars";
 import { Cursor } from "@/components/ui/Cursor";
 import { Loader } from "@/components/ui/Loader";
 import { HorizontalScroll } from "@/components/scroll/HorizontalScroll";
+import { RepoFlipCard } from "@/components/cards/RepoFlipCard";
 import { siteContent } from "@/lib/content";
-import type { Project, ProjectKind } from "@/lib/types";
+import { fetchRepoMeta, repoNameFromUrl, type RepoMeta } from "@/lib/github";
+import type { Project, ProjectKind, RepoProject } from "@/lib/types";
 
 const KIND_LABELS: Record<ProjectKind, string> = {
   flagship: "Flagship builds",
-  repo: "Open-source repos",
+  repo: "Built by directing AI — not by coding",
   capability: "Capabilities",
   current: "Currently",
 };
@@ -24,69 +26,83 @@ function panelGroups(projects: Project[]): [ProjectKind, Project[]][] {
   ]).filter(([, group]) => group.length > 0);
 }
 
-function ProjectCard({ project }: { project: Project }) {
-  const title = project.kind === "repo" ? project.hook : project.title;
-  const description =
-    project.kind === "repo" ? project.useCase : project.blurb;
-
+function SimpleCard({ title, blurb }: { title: string; blurb: string }) {
   return (
     <li className="rounded-2xl border border-surface-border bg-surface p-6 text-left">
       <p className="text-lg font-medium text-ink">{title}</p>
-      <p className="mt-2 text-sm text-muted">{description}</p>
-      {project.kind === "flagship" && (
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
-        >
-          View live
-        </a>
-      )}
-      {project.kind === "repo" && (
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block text-sm font-medium text-accent hover:underline"
-        >
-          View repo
-        </a>
-      )}
+      <p className="mt-2 text-sm text-muted">{blurb}</p>
     </li>
   );
 }
 
-function ProjectPanel({ kind, group }: { kind: ProjectKind; group: Project[] }) {
+function RepoGrid({
+  repos,
+  meta,
+}: {
+  repos: RepoProject[];
+  meta: Record<string, RepoMeta>;
+}) {
   return (
-    <section aria-labelledby={`${kind}-heading`} className="w-full max-w-4xl">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {repos.map((repo) => (
+        <RepoFlipCard
+          key={repo.id}
+          hook={repo.hook}
+          useCase={repo.useCase}
+          githubUrl={repo.githubUrl}
+          stars={meta[repoNameFromUrl(repo.githubUrl)]?.stars}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Panel({
+  kind,
+  group,
+  meta,
+}: {
+  kind: ProjectKind;
+  group: Project[];
+  meta: Record<string, RepoMeta>;
+}) {
+  return (
+    <section aria-labelledby={`${kind}-heading`} className="w-full max-w-5xl">
       <h2
         id={`${kind}-heading`}
         className="mb-6 text-sm uppercase tracking-[0.3em] text-muted"
       >
         {KIND_LABELS[kind]}
       </h2>
-      <ul className="grid gap-4 sm:grid-cols-2">
-        {group.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </ul>
+      {kind === "repo" ? (
+        <RepoGrid repos={group as RepoProject[]} meta={meta} />
+      ) : (
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {group.map((project) => (
+            <SimpleCard
+              key={project.id}
+              title={project.title}
+              blurb={"blurb" in project ? project.blurb : ""}
+            />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
 
 /**
- * Home — the shell (fixed ambient + cursor + loader) plus the horizontal-
- * scroll panel track: Hero, then one panel per project group. The scroll is
- * progressive enhancement (see HorizontalScroll) — vertical everywhere by
- * default, horizontal on fine-pointer desktop with motion allowed.
+ * Home — the fixed shell plus the horizontal-scroll panel track: Hero, then a
+ * panel per project group. Repo cards are enriched at build time with live
+ * GitHub stars (fails soft). Horizontal scroll is progressive enhancement.
  */
-export default function Home() {
+export default async function Home() {
+  const meta = await fetchRepoMeta();
   const groups = panelGroups(siteContent.projects);
   const panels = [
     <Hero key="hero" />,
     ...groups.map(([kind, group]) => (
-      <ProjectPanel key={kind} kind={kind} group={group} />
+      <Panel key={kind} kind={kind} group={group} meta={meta} />
     )),
   ];
 
