@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens — "Dark Aurora, Disciplined"
+ * Base custom properties live under distinct names so the @theme block
+ * below can alias them into Tailwind's theme without circular references
+ * (fonts follow the same pattern: next/font writes --font-display-src /
+ * --font-body-src on <html>, and we expose the public --font-display /
+ * --font-body names here).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ground: #0a0e14;
+  --surface: rgba(237, 230, 218, 0.05);
+  --surface-border: rgba(237, 230, 218, 0.1);
+  --ink: #ede6da;
+  --muted: #9ba3ae;
+  --accent: #3de1c4;
+  --spark: #e879f9;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-spark: var(--spark);
+
+  --font-display: var(--font-display-src);
+  --font-body: var(--font-body-src);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Keep focus states visible and intentional rather than suppressed. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Difference-blend cursor (components/ui/Cursor.tsx) — desktop only. */
+.cursor-dot {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot {
+    display: block;
+  }
+}
+
+/* Ambient starfield parallax scroll (see components/ambient/Stars.tsx). */
+@keyframes star-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
+
+/* Aurora blobs breathe slowly — compositor-friendly (transform + opacity only). */
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* Hyper-speed loader streak lines. */
+@keyframes loader-streak {
+  0% {
+    transform: scaleX(0.15);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
