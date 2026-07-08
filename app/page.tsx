@@ -7,6 +7,7 @@ import { RepoFlipCard } from "@/components/cards/RepoFlipCard";
 import { ImpactSection } from "@/components/impact/ImpactSection";
 import { AiStack } from "@/components/sections/AiStack";
 import { Reveal } from "@/components/motion/Reveal";
+import { CoreCanvas } from "@/components/core/CoreCanvas";
 import { Contact } from "@/components/sections/Contact";
 import { siteContent } from "@/lib/content";
 import { fetchRepoMeta, repoNameFromUrl, type RepoMeta } from "@/lib/github";
@@ -119,6 +120,7 @@ export default async function Home() {
       <Cursor />
       <Stars />
       <Aurora />
+      <CoreCanvas />
 
       <main className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-28 px-6 py-24">
         {panels.map((panel, index) => (
