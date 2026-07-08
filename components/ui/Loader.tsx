@@ -24,7 +24,7 @@ export function Loader() {
         if (event.animationName.includes("loader-dismiss")) setDone(true);
       }}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-ground"
-      style={{ animation: "loader-dismiss 0.4s ease-out 0.7s forwards" }}
+      style={{ animation: "loader-dismiss 0.3s ease-out 0.35s forwards" }}
     >
       <div className="relative h-24 w-24">
         {Array.from({ length: STREAK_COUNT }, (_, index) => (
