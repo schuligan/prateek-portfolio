@@ -36,22 +36,6 @@ export function Contact() {
         >
           GitHub
         </a>
-        <a
-          href={contact.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-accent"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={contact.resumePath}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-accent"
-        >
-          Résumé
-        </a>
       </div>
     </section>
   );
