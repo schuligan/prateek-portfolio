@@ -6,6 +6,8 @@ import { Loader } from "@/components/ui/Loader";
 import { HorizontalScroll } from "@/components/scroll/HorizontalScroll";
 import { RepoFlipCard } from "@/components/cards/RepoFlipCard";
 import { ImpactSection } from "@/components/impact/ImpactSection";
+import { AiStack } from "@/components/sections/AiStack";
+import { Contact } from "@/components/sections/Contact";
 import { siteContent } from "@/lib/content";
 import { fetchRepoMeta, repoNameFromUrl, type RepoMeta } from "@/lib/github";
 import type { Project, ProjectKind, RepoProject } from "@/lib/types";
@@ -106,6 +108,8 @@ export default async function Home() {
     ...groups.map(([kind, group]) => (
       <Panel key={kind} kind={kind} group={group} meta={meta} />
     )),
+    <AiStack key="stack" />,
+    <Contact key="contact" />,
   ];
 
   return (
