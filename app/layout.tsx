@@ -14,7 +14,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const SITE_URL = "https://prateek-portfolio.vercel.app"; // update if the Vercel domain differs
+const SITE_URL = "https://prateek-portfolio-ashen.vercel.app";
 const TITLE = "Prateek Jha — AI Product & Program Leader";
 const DESCRIPTION =
   "I scale products, teams, and the systems they run on. AI Product & Program Leader.";
