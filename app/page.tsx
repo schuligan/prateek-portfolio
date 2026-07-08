@@ -3,7 +3,6 @@ import { Hero } from "@/components/hero/Hero";
 import { Stars } from "@/components/ambient/Stars";
 import { Cursor } from "@/components/ui/Cursor";
 import { Loader } from "@/components/ui/Loader";
-import { HorizontalScroll } from "@/components/scroll/HorizontalScroll";
 import { RepoFlipCard } from "@/components/cards/RepoFlipCard";
 import { ImpactSection } from "@/components/impact/ImpactSection";
 import { AiStack } from "@/components/sections/AiStack";
@@ -119,8 +118,8 @@ export default async function Home() {
       <Stars />
       <Aurora />
 
-      <main className="relative z-10">
-        <HorizontalScroll panels={panels} />
+      <main className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-28 px-6 py-24">
+        {panels}
       </main>
     </>
   );
