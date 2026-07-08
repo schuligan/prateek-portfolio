@@ -45,15 +45,25 @@ jobs:
       - name: Build
         run: npm run build
 
-  # Lighthouse / CWV budget + a11y — runs on PRs against the preview build.
-  # Wired once Vercel preview URLs are available (Epic 1, step 5).
+  # Lighthouse / CWV + a11y — measures the built app (warn-level budgets:
+  # LCP<2.5s, CLS<0.1, a11y>=0.9, perf>=0.8). Surfaces scores; does not block.
   lighthouse:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     needs: quality
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder Lighthouse CI
-        run: |
-          echo "Lighthouse CI wired after Vercel preview integration."
-          echo "Budgets — LCP under 2.5s, JS under 80kb, CLS under 0.1, a11y 95 plus."
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.14.x autorun
