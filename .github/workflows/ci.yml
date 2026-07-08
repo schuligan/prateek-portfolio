@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dependency audit (fail on high+)
+        run: npm audit --audit-level=high
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+  # Lighthouse / CWV budget + a11y — runs on PRs against the preview build.
+  # Wired once Vercel preview URLs are available (Epic 1, step 5).
+  lighthouse:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder Lighthouse CI
+        run: |
+          echo "Lighthouse CI wired after Vercel preview integration."
+          echo "Budgets — LCP under 2.5s, JS under 80kb, CLS under 0.1, a11y 95 plus."
