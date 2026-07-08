@@ -18,6 +18,9 @@ Scroll is **vertical** (a horizontal GSAP variant was tried and reverted).
 ## Conventions
 Content-as-data — add a project = one entry in `lib/projects.ts`. Copy rules + positioning live in `.claude/positioning.local.md` (git-ignored). Never push to `main` (protected; PR only). See `CLAUDE.md`.
 
+## Notes
+- Repo grid is **curated** (11 hand-authored hooks in `lib/projects.ts`). The GitHub API adds live stars only — new public repos do **not** auto-list (would need dynamic rendering + per-repo hook copy).
+
 ## Open
 - Repo hook images (Codex + GPT-image, `codex-image-prompt.md` in the parent project) → `public/repo-thumbs/`.
 - Confirm `SITE_URL` matches the production domain in `layout.tsx`/`robots.ts`/`sitemap.ts`.

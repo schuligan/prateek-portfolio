@@ -14,7 +14,7 @@ Living portfolio site for Prateek Jha. Copy/positioning strategy lives in the gi
 - Next.js (App Router) + Tailwind + GSAP + framer-motion → Vercel.
 - **Content-as-data:** projects registry + persona registry (`/lib/personas.ts`). Adding a project/persona = a data entry, not a redesign.
 - **Persona layer:** route `/r/<persona>` (base = default). Overrides headline/subhead/résumé/order/accent only.
-- GitHub API build-time sync of public `schuligan` repos for the project grid.
+- GitHub API build-time enrichment (live stars/last-commit) on a **curated** repo grid — the repo cards + their hooks live in `lib/projects.ts`; new repos do NOT auto-list.
 
 ## Security & git (HARD)
 - `.claude/hooks/block-dangerous-git.sh` blocks force-push, reset --hard, clean -f, branch -D, checkout ., rm -rf, and direct-to-main push.

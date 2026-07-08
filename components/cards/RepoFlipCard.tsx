@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 
 interface RepoFlipCardProps {
   hook: string;
@@ -12,11 +11,11 @@ interface RepoFlipCardProps {
 }
 
 /**
- * RepoFlipCard — YouTube-thumbnail-style flip card. Front = a generated hook
- * image (falls back to an aqua gradient) with the hook title over a scrim. It
- * flips to reveal the plain-English use case + repo link. Flips on hover
- * (mouse), focus-within (keyboard), and tap (touch, via state). The repo link
- * stops propagation so a tap on it navigates instead of flipping back.
+ * RepoFlipCard — the whole card is a single link to the repo (semantic +
+ * keyboard-clean, no non-interactive click handler). Front = generated hook
+ * image + title over a scrim; it flips to reveal the use case on hover and on
+ * keyboard focus (group-focus-within). Tapping/activating anywhere opens the
+ * repo. Motion freezes under the global reduced-motion rule.
  */
 export function RepoFlipCard({
   hook,
@@ -25,17 +24,15 @@ export function RepoFlipCard({
   thumbSrc,
   stars,
 }: RepoFlipCardProps) {
-  const [flipped, setFlipped] = useState(false);
-
   return (
-    <div
-      className="group h-44 [perspective:1000px]"
-      onClick={() => setFlipped((value) => !value)}
+    <a
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${hook}: ${useCase} — opens the GitHub repo`}
+      className="group block h-44 rounded-2xl [perspective:1000px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
-      <div
-        data-flipped={flipped}
-        className="relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)] data-[flipped=true]:[transform:rotateY(180deg)]"
-      >
+      <div className="relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)]">
         {/* Front */}
         <div className="absolute inset-0 overflow-hidden rounded-2xl border border-surface-border [backface-visibility:hidden]">
           {thumbSrc ? (
@@ -67,17 +64,9 @@ export function RepoFlipCard({
         {/* Back */}
         <div className="absolute inset-0 flex flex-col justify-between rounded-2xl border border-surface-border bg-surface p-5 [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="text-sm text-muted">{useCase}</p>
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(event) => event.stopPropagation()}
-            className="text-sm font-medium text-accent hover:underline"
-          >
-            View repo →
-          </a>
+          <span className="text-sm font-medium text-accent">View repo →</span>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
