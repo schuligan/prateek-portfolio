@@ -6,6 +6,7 @@ import { Loader } from "@/components/ui/Loader";
 import { RepoFlipCard } from "@/components/cards/RepoFlipCard";
 import { ImpactSection } from "@/components/impact/ImpactSection";
 import { AiStack } from "@/components/sections/AiStack";
+import { Reveal } from "@/components/motion/Reveal";
 import { Contact } from "@/components/sections/Contact";
 import { siteContent } from "@/lib/content";
 import { fetchRepoMeta, repoNameFromUrl, type RepoMeta } from "@/lib/github";
@@ -120,7 +121,11 @@ export default async function Home() {
       <Aurora />
 
       <main className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-28 px-6 py-24">
-        {panels}
+        {panels.map((panel, index) => (
+          <Reveal key={index} className="flex w-full justify-center">
+            {panel}
+          </Reveal>
+        ))}
       </main>
     </>
   );

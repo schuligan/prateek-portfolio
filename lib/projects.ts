@@ -160,4 +160,11 @@ export const projects: Project[] = [
     blurb:
       "Leading product for a healthtech platform serving Personal Support Workers in Canada — from problem to roadmap.",
   },
+  {
+    id: "stablecoin-platform",
+    kind: "current",
+    title: "Stablecoin Payments Platform",
+    blurb:
+      "Product Owner for a stablecoin payments platform — driving spec to ship in a regulated fintech environment.",
+  },
 ];
