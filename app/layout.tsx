@@ -14,9 +14,27 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL = "https://prateek-portfolio.vercel.app"; // update if the Vercel domain differs
+const TITLE = "Prateek Jha — AI Product & Program Leader";
+const DESCRIPTION =
+  "I scale products, teams, and the systems they run on. AI Product & Program Leader.";
+
 export const metadata: Metadata = {
-  title: "Prateek Jha — AI Product & Program Leader",
-  description: "Portfolio of Prateek Jha, AI Product & Program Leader.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: TITLE, template: "%s · Prateek Jha" },
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Prateek Jha",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
