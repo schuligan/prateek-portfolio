@@ -37,7 +37,7 @@ function CoreMesh() {
     const breath = 1 + Math.sin(t * 2.6) * 0.035;
     g.scale.setScalar(breath);
     if (matRef.current) {
-      matRef.current.emissiveIntensity = 0.55 + Math.sin(t * 2.6) * 0.25;
+      matRef.current.emissiveIntensity = 0.16 + Math.sin(t * 2.6) * 0.08;
     }
 
     // Cursor-follow rotation + a slow idle spin.
@@ -53,13 +53,15 @@ function CoreMesh() {
       <Sphere args={[1, 96, 96]}>
         <MeshDistortMaterial
           ref={matRef}
-          color="#0b3b3a"
+          color="#06201f"
           emissive="#4fcbc0"
-          emissiveIntensity={0.7}
-          roughness={0.3}
-          metalness={0.25}
+          emissiveIntensity={0.16}
+          roughness={0.45}
+          metalness={0.3}
           distort={0.35}
           speed={1.6}
+          transparent
+          opacity={0.62}
         />
       </Sphere>
       <Sphere args={[1.28, 64, 64]}>
@@ -87,13 +89,13 @@ export function Core() {
   return (
     <Canvas
       style={{ position: "fixed", inset: 0 }}
-      camera={{ position: [0, 0, 4], fov: 45 }}
+      camera={{ position: [0, 0, 9], fov: 45 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
     >
-      <ambientLight intensity={0.4} />
-      <pointLight position={[3, 3, 4]} intensity={1.4} color="#4fcbc0" />
-      <pointLight position={[-3, -2, 2]} intensity={0.5} color="#e879f9" />
+      <ambientLight intensity={0.25} />
+      <pointLight position={[3, 3, 4]} intensity={0.8} color="#4fcbc0" />
+      <pointLight position={[-3, -2, 2]} intensity={0.3} color="#e879f9" />
       <CoreMesh />
     </Canvas>
   );
