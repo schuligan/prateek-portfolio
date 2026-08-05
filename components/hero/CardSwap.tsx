@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { FlagshipProject } from "@/lib/types";
 
@@ -44,9 +45,9 @@ export function CardSwap({ projects }: CardSwapProps) {
   }, [count, paused]);
 
   return (
-    <div className="flex w-full max-w-sm flex-col items-center gap-4">
+    <div className="flex w-full max-w-md flex-col items-center gap-4">
       <div
-        className="relative h-80 w-full [perspective:1200px]"
+        className="relative h-96 w-full [perspective:1200px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -74,13 +75,23 @@ export function CardSwap({ projects }: CardSwapProps) {
                   "linear-gradient(160deg, rgba(22, 31, 41, 0.82), rgba(12, 18, 25, 0.88))",
               }}
             >
-              <p className="text-xs uppercase tracking-[0.25em] text-accent">
-                Live build
-              </p>
-              <p className="mt-2 text-xl font-semibold text-ink">
-                {project.title}
-              </p>
-              <p className="mt-1 text-sm text-muted">{project.blurb}</p>
+              <Image
+                src={`/project-shots/${project.id}.png`}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 90vw, 440px"
+                className="object-cover object-top opacity-70"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ground via-ground/85 to-ground/10" />
+              <div className="relative">
+                <p className="text-xs uppercase tracking-[0.25em] text-accent">
+                  Live build
+                </p>
+                <p className="mt-2 text-xl font-semibold text-ink">
+                  {project.title}
+                </p>
+                <p className="mt-1 text-sm text-muted">{project.blurb}</p>
+              </div>
             </a>
           );
         })}
