@@ -64,33 +64,40 @@ export function CardSwap({ projects }: CardSwapProps) {
               rel="noopener noreferrer"
               aria-hidden={!isFront}
               tabIndex={isFront ? 0 : -1}
-              className="card-sheen absolute inset-0 flex flex-col justify-end overflow-hidden rounded-3xl border border-surface-border p-6 backdrop-blur-xl transition-all duration-500 ease-out"
+              className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-surface-border transition-all duration-500 ease-out"
               style={{
                 transform: `translateY(${style.y}px) scale(${style.scale})`,
                 opacity: style.opacity,
                 zIndex: style.z,
                 filter: style.blur ? `blur(${style.blur}px)` : undefined,
                 pointerEvents: isFront ? "auto" : "none",
-                background:
-                  "linear-gradient(160deg, rgba(22, 31, 41, 0.82), rgba(12, 18, 25, 0.88))",
+                // Opaque: any alpha here lets the card behind ghost through.
+                background: "#0d131a",
               }}
             >
-              <Image
-                src={`/project-shots/${project.id}.png`}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 90vw, 440px"
-                className="object-cover object-top opacity-70"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ground via-ground/85 to-ground/10" />
-              <div className="relative">
-                <p className="text-xs uppercase tracking-[0.25em] text-accent">
+              {/* Screenshot in its own 16:10 frame — the shots are 1280x800,
+                  so nothing is cropped and the site stays recognisable. */}
+              <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
+                <Image
+                  src={`/project-shots/${project.id}.png`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 90vw, 440px"
+                  className="object-cover object-top"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#0d131a] to-transparent" />
+              </div>
+
+              <div className="flex flex-1 flex-col justify-center px-5 py-4">
+                <p className="text-[11px] uppercase tracking-[0.25em] text-accent">
                   Live build
                 </p>
-                <p className="mt-2 text-xl font-semibold text-ink">
+                <p className="mt-1.5 text-lg font-semibold leading-tight text-ink">
                   {project.title}
                 </p>
-                <p className="mt-1 text-sm text-muted">{project.blurb}</p>
+                <p className="mt-1 text-sm leading-snug text-muted">
+                  {project.blurb}
+                </p>
               </div>
             </a>
           );

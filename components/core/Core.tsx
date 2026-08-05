@@ -1,19 +1,48 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshDistortMaterial, Sphere, Sparkles } from "@react-three/drei";
-import { useEffect, useRef, type ComponentRef } from "react";
+import { Sparkles } from "@react-three/drei";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
+/** A radial-falloff texture — the basis of an edgeless glow. */
+function useGlowTexture() {
+  return useMemo(() => {
+    const size = 256;
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      const g = ctx.createRadialGradient(
+        size / 2,
+        size / 2,
+        0,
+        size / 2,
+        size / 2,
+        size / 2,
+      );
+      g.addColorStop(0, "rgba(120, 231, 216, 0.95)");
+      g.addColorStop(0.25, "rgba(79, 203, 192, 0.42)");
+      g.addColorStop(0.55, "rgba(45, 120, 125, 0.14)");
+      g.addColorStop(1, "rgba(8, 22, 28, 0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, size, size);
+    }
+    return new THREE.CanvasTexture(canvas);
+  }, []);
+}
+
 /**
- * CoreMesh — the throbbing Jarvis sphere: a noise-distorted emissive orb
- * (breathing scale + emissive pulse), a soft back-side glow shell, and an
- * ambient particle field. Rotates toward the cursor and drifts with scroll.
+ * CoreMesh — the Core reads as light, not an object: overlapping additive
+ * radial glows with a slow breath, plus an ambient particle field. No sphere
+ * silhouette, so there is no visible boundary. Drifts with scroll and leans
+ * toward the cursor.
  */
 function CoreMesh() {
   const group = useRef<THREE.Group>(null);
-  const matRef = useRef<ComponentRef<typeof MeshDistortMaterial>>(null);
+  const matRef = useRef<THREE.SpriteMaterial>(null);
   const pointer = useRef({ x: 0, y: 0 });
+  const glowTexture = useGlowTexture();
 
   useEffect(() => {
     const onMove = (event: PointerEvent) => {
@@ -33,16 +62,15 @@ function CoreMesh() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const scroll = max > 0 ? window.scrollY / max : 0;
 
-    // Heartbeat: breathe + emissive pulse.
-    const breath = 1 + Math.sin(t * 2.6) * 0.035;
+    // Heartbeat: a slow, subtle breath in scale and brightness.
+    const breath = 1 + Math.sin(t * 1.5) * 0.03;
     g.scale.setScalar(breath);
     if (matRef.current) {
-      matRef.current.emissiveIntensity = 0.16 + Math.sin(t * 2.6) * 0.08;
+      matRef.current.opacity = 0.46 + Math.sin(t * 1.5) * 0.07;
     }
 
-    // Cursor-follow rotation + a slow idle spin.
-    g.rotation.y += (pointer.current.x * 0.5 - g.rotation.y) * 0.04 + 0.0016;
-    g.rotation.x += (-pointer.current.y * 0.4 - g.rotation.x) * 0.04;
+    // Lean gently toward the cursor.
+    g.position.x += (pointer.current.x * 0.5 - g.position.x) * 0.03;
 
     // Scroll drift.
     g.position.y = scroll * -1.4;
@@ -50,28 +78,28 @@ function CoreMesh() {
 
   return (
     <group ref={group}>
-      <Sphere args={[1, 96, 96]}>
-        <MeshDistortMaterial
+      {/* Soft additive glow — a radial falloff, so the Core reads as light
+          with no sphere silhouette or hard boundary (PRD: "additive outer glow"). */}
+      <sprite scale={[6.2, 6.2, 1]}>
+        <spriteMaterial
           ref={matRef}
-          color="#08161c"
-          emissive="#4fcbc0"
-          emissiveIntensity={0.1}
-          roughness={0.55}
-          metalness={0.4}
-          distort={0.4}
-          speed={1.6}
+          map={glowTexture}
           transparent
-          opacity={0.4}
+          opacity={0.5}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
-      </Sphere>
-      <Sphere args={[1.28, 64, 64]}>
-        <meshBasicMaterial
-          color="#4fcbc0"
+      </sprite>
+      {/* Faint inner concentration, also edgeless. */}
+      <sprite scale={[2.6, 2.6, 1]}>
+        <spriteMaterial
+          map={glowTexture}
           transparent
-          opacity={0.05}
-          side={THREE.BackSide}
+          opacity={0.35}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
-      </Sphere>
+      </sprite>
       <Sparkles
         count={50}
         scale={5}
