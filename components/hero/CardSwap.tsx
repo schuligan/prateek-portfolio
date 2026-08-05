@@ -71,7 +71,7 @@ export function CardSwap({ projects }: CardSwapProps) {
                 filter: style.blur ? `blur(${style.blur}px)` : undefined,
                 pointerEvents: isFront ? "auto" : "none",
                 background:
-                  "linear-gradient(160deg, color-mix(in oklch, var(--color-accent) 10%, var(--color-surface)), var(--color-surface))",
+                  "linear-gradient(160deg, rgba(22, 31, 41, 0.82), rgba(12, 18, 25, 0.88))",
               }}
             >
               <p className="text-xs uppercase tracking-[0.25em] text-accent">

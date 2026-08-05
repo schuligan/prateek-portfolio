@@ -22,7 +22,7 @@ export function Hero() {
       <div className="flex-1 text-center lg:text-left">
         <KineticHeading
           text={siteContent.headline}
-          className="text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+          className="text-4xl font-semibold leading-[1.18] tracking-tight text-ink sm:text-5xl lg:text-6xl"
         />
         <p className="mt-5 text-lg text-muted sm:text-xl">{siteContent.role}</p>
         <p className="mt-3 inline-flex items-center rounded-full border border-surface-border bg-surface px-4 py-1.5 text-sm text-muted">
