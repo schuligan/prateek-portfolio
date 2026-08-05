@@ -17,11 +17,12 @@ const KIND_LABELS: Record<ProjectKind, string> = {
   flagship: "Flagship builds",
   repo: "Built by directing AI — not by coding",
   capability: "Capabilities",
-  current: "Currently",
+  current: "Under progress",
 };
 
 // Flagship is showcased in the Hero deck, so it is not repeated as a panel.
-const PANEL_KINDS: ProjectKind[] = ["repo", "capability", "current"];
+// Capabilities join the repo panel — same "built by directing AI" story, same UI.
+const PANEL_KINDS: ProjectKind[] = ["repo", "current"];
 
 function panelGroups(projects: Project[]): [ProjectKind, Project[]][] {
   return PANEL_KINDS.map((kind): [ProjectKind, Project[]] => [
@@ -41,9 +42,11 @@ function SimpleCard({ title, blurb }: { title: string; blurb: string }) {
 
 function RepoGrid({
   repos,
+  capabilities,
   meta,
 }: {
   repos: RepoProject[];
+  capabilities: Project[];
   meta: Record<string, RepoMeta>;
 }) {
   return (
@@ -56,6 +59,13 @@ function RepoGrid({
           githubUrl={repo.githubUrl}
           thumbSrc={`/repo-thumbs/${repoNameFromUrl(repo.githubUrl)}.webp`}
           stars={meta[repoNameFromUrl(repo.githubUrl)]?.stars}
+        />
+      ))}
+      {capabilities.map((capability) => (
+        <RepoFlipCard
+          key={capability.id}
+          hook={capability.title}
+          useCase={"blurb" in capability ? capability.blurb : ""}
         />
       ))}
     </div>
@@ -80,17 +90,23 @@ function Panel({
         {KIND_LABELS[kind]}
       </h2>
       {kind === "repo" ? (
-        <RepoGrid repos={group as RepoProject[]} meta={meta} />
+        <RepoGrid
+          repos={group as RepoProject[]}
+          capabilities={siteContent.projects.filter(
+            (p) => p.kind === "capability",
+          )}
+          meta={meta}
+        />
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {group.map((project) => (
-            <SimpleCard
+            <RepoFlipCard
               key={project.id}
-              title={project.title}
-              blurb={"blurb" in project ? project.blurb : ""}
+              hook={project.title}
+              useCase={"blurb" in project ? project.blurb : ""}
             />
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );

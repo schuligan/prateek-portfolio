@@ -1,5 +1,6 @@
 import { CardSwap } from "@/components/hero/CardSwap";
 import { KineticHeading } from "@/components/motion/KineticHeading";
+import { EmailButton } from "@/components/sections/EmailButton";
 import { LightBeamButton } from "@/components/ui/LightBeamButton";
 import { siteContent } from "@/lib/content";
 import type { FlagshipProject } from "@/lib/types";
@@ -34,7 +35,7 @@ export function Hero() {
           <LightBeamButton href={CAL_URL} external>
             Book a call
           </LightBeamButton>
-          <LightBeamButton href={EMAIL}>Send email</LightBeamButton>
+          <EmailButton />
         </div>
       </div>
 
