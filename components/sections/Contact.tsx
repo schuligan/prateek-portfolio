@@ -1,4 +1,5 @@
 import { LightBeamButton } from "@/components/ui/LightBeamButton";
+import { EmailButton } from "@/components/sections/EmailButton";
 import { contact } from "@/lib/contact";
 
 /**
@@ -22,9 +23,7 @@ export function Contact() {
         <LightBeamButton href={contact.bookUrl} external>
           Book a call
         </LightBeamButton>
-        <LightBeamButton href={`mailto:${contact.email}`}>
-          Send email
-        </LightBeamButton>
+        <EmailButton />
       </div>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-muted">

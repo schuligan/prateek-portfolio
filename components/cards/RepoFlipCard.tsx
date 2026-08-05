@@ -5,7 +5,8 @@ import Image from "next/image";
 interface RepoFlipCardProps {
   hook: string;
   useCase: string;
-  githubUrl: string;
+  /** Omitted for cards with nothing public to open (capabilities, in-flight work). */
+  githubUrl?: string;
   thumbSrc?: string;
   stars?: number;
 }
@@ -24,14 +25,10 @@ export function RepoFlipCard({
   thumbSrc,
   stars,
 }: RepoFlipCardProps) {
-  return (
-    <a
-      href={githubUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${hook}: ${useCase} — opens the GitHub repo`}
-      className="group block h-44 rounded-2xl [perspective:1000px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-    >
+  const shellClass =
+    "group block h-44 rounded-2xl [perspective:1000px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+
+  const body = (
       <div className="relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)]">
         {/* Front */}
         <div className="absolute inset-0 overflow-hidden rounded-2xl border border-surface-border [backface-visibility:hidden]">
@@ -64,9 +61,28 @@ export function RepoFlipCard({
         {/* Back */}
         <div className="absolute inset-0 flex flex-col justify-between rounded-2xl border border-surface-border bg-surface p-5 [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="text-sm text-muted">{useCase}</p>
-          <span className="text-sm font-medium text-accent">View repo →</span>
+          {githubUrl && (
+            <span className="text-sm font-medium text-accent">View repo →</span>
+          )}
         </div>
       </div>
+  );
+
+  // Linked cards are anchors; capability / in-flight cards have nothing public
+  // to open, so they stay focusable divs rather than dead links.
+  return githubUrl ? (
+    <a
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${hook}: ${useCase} — opens the GitHub repo`}
+      className={shellClass}
+    >
+      {body}
     </a>
+  ) : (
+    <div tabIndex={0} aria-label={`${hook}: ${useCase}`} className={shellClass}>
+      {body}
+    </div>
   );
 }
