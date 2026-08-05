@@ -7,11 +7,11 @@ describe("projects registry", () => {
   const countKind = (kind: string) =>
     projects.filter((p) => p.kind === kind).length;
 
-  it("has the expected mix (4 flagship, 11 repo, 2 capability, 2 current)", () => {
+  it("has the expected mix (4 flagship, 11 repo, 3 capability, 5 current)", () => {
     expect(countKind("flagship")).toBe(4);
     expect(countKind("repo")).toBe(11);
-    expect(countKind("capability")).toBe(2);
-    expect(countKind("current")).toBe(2);
+    expect(countKind("capability")).toBe(3);
+    expect(countKind("current")).toBe(5);
   });
 
   it("has unique ids", () => {
