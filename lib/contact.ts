@@ -16,7 +16,7 @@ export const aiStack: { label: string; detail: string }[] = [
   { label: "Claude", detail: "Opus · Sonnet · Haiku" },
   { label: "GPT", detail: "OpenAI models + Codex" },
   { label: "Local models", detail: "Llama · Ollama · LM Studio" },
-  { label: "MCP", detail: "tool + data connectors" },
-  { label: "Agentic loops", detail: "orchestration, gates, verification" },
+  { label: "MCP", detail: "Tool + data connectors" },
+  { label: "Agentic loops", detail: "Orchestration, gates, verification" },
   { label: "Cursor & CLI", detail: "AI-native build harnesses" },
 ];

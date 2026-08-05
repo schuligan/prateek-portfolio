@@ -27,8 +27,8 @@ const bg = `
   <rect width="${W}" height="${H}" fill="#080b10"/>
   <rect width="${W}" height="${H}" fill="url(#glow)"/>`;
 
-const stroke = (o = 0.55, w = 2) =>
-  `fill="none" stroke="${AQUA}" stroke-opacity="${o}" stroke-width="${w}"`;
+const stroke = (o = 0.55, w = 2, fill = "none") =>
+  `fill="${fill}" stroke="${AQUA}" stroke-opacity="${o}" stroke-width="${w}"`;
 
 /** Funnel of streams converging into a single resolved node. */
 const inbox = () => {
@@ -51,7 +51,7 @@ const localFirst = () => {
   for (let r = 0; r < 5; r++)
     for (let c = 0; c < 8; c++)
       s += `<rect x="${360 + c * 72}" y="${250 + r * 62}" width="44" height="30" rx="6" fill="${AQUA}" fill-opacity="${0.10 + ((r + c) % 4) * 0.11}"/>`;
-  s += `<circle cx="640" cy="140" r="26" fill="#080b10" ${stroke(0.8, 3)}/>`;
+  s += `<circle cx="640" cy="140" r="26" ${stroke(0.8, 3, "#080b10")}/>`;
   s += `<path d="M628 140 v-16 a12 12 0 0 1 24 0 v16" ${stroke(0.8, 3)}/>`;
   return s;
 };
@@ -67,10 +67,10 @@ const orchestrator = () => {
     const x = cx + Math.cos(a) * R;
     const y = cy + Math.sin(a) * R;
     s += `<path d="M${cx} ${cy} L${x} ${y}" ${stroke(0.3, 2)}/>`;
-    s += `<circle cx="${x}" cy="${y}" r="30" fill="#080b10" ${stroke(0.6, 2)}/>`;
+    s += `<circle cx="${x}" cy="${y}" r="30" ${stroke(0.6, 2, "#080b10")}/>`;
     s += `<circle cx="${x}" cy="${y}" r="9" fill="${AQUA}" fill-opacity="0.7"/>`;
   }
-  s += `<circle cx="${cx}" cy="${cy}" r="72" fill="#080b10" ${stroke(0.9, 3)}/>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="72" ${stroke(0.9, 3, "#080b10")}/>`;
   s += `<circle cx="${cx}" cy="${cy}" r="26" fill="${AQUA}" fill-opacity="0.9"/>`;
   return s;
 };
@@ -85,7 +85,7 @@ const psw = () => {
     [1050, 430],
   ];
   pts.forEach(([x, y], i) => {
-    s += `<circle cx="${x}" cy="${y}" r="${26 - i * 2}" fill="#080b10" ${stroke(0.7, 2)}/>`;
+    s += `<circle cx="${x}" cy="${y}" r="${26 - i * 2}" ${stroke(0.7, 2, "#080b10")}/>`;
     s += `<circle cx="${x}" cy="${y}" r="8" fill="${AQUA}" fill-opacity="0.85"/>`;
   });
   s += `<path d="M300 190 h120 l30 -55 l38 110 l30 -55 h150" ${stroke(0.75, 3)}/>`;
@@ -108,7 +108,7 @@ const stablecoin = () => {
 
 /** A voice given a face — waveform resolving into a presence. */
 const vessel = () => {
-  let s = `<circle cx="640" cy="380" r="150" fill="#080b10" ${stroke(0.75, 3)}/>`;
+  let s = `<circle cx="640" cy="380" r="150" ${stroke(0.75, 3, "#080b10")}/>`;
   s += `<circle cx="588" cy="350" r="13" fill="${AQUA}" fill-opacity="0.9"/>`;
   s += `<circle cx="692" cy="350" r="13" fill="${AQUA}" fill-opacity="0.9"/>`;
   s += `<path d="M580 432 q60 46 120 0" ${stroke(0.8, 4)}/>`;
@@ -150,7 +150,7 @@ const triage = () => {
   for (let i = 0; i < 10; i++)
     s += `<rect x="${90 + (i % 2) * 26}" y="${150 + i * 52}" width="150" height="30" rx="8" fill="${AQUA}" fill-opacity="${0.1 + (i % 5) * 0.07}"/>`;
   s += `<path d="M270 400 H430" ${stroke(0.5, 2)}/>`;
-  s += `<circle cx="470" cy="400" r="40" fill="#080b10" ${stroke(0.85, 3)}/>`;
+  s += `<circle cx="470" cy="400" r="40" ${stroke(0.85, 3, "#080b10")}/>`;
   s += `<path d="M452 400 l14 14 l28 -30" ${stroke(0.9, 4)}/>`;
   for (let i = 0; i < 4; i++) {
     const y = 190 + i * 145;
