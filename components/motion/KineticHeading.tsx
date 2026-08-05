@@ -26,7 +26,9 @@ export function KineticHeading({
         <span
           key={`${word}-${index}`}
           aria-hidden
-          className="inline-block overflow-hidden align-bottom"
+          // Extra vertical room: the mask must clear a display serif's
+          // ascenders/descenders, or it slices the glyphs.
+          className="inline-block overflow-hidden pb-[0.18em] align-bottom leading-[1.18]"
         >
           <motion.span
             className="inline-block"

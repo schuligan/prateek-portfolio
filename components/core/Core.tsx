@@ -53,15 +53,15 @@ function CoreMesh() {
       <Sphere args={[1, 96, 96]}>
         <MeshDistortMaterial
           ref={matRef}
-          color="#06201f"
+          color="#08161c"
           emissive="#4fcbc0"
-          emissiveIntensity={0.16}
-          roughness={0.45}
-          metalness={0.3}
-          distort={0.35}
+          emissiveIntensity={0.1}
+          roughness={0.55}
+          metalness={0.4}
+          distort={0.4}
           speed={1.6}
           transparent
-          opacity={0.62}
+          opacity={0.4}
         />
       </Sphere>
       <Sphere args={[1.28, 64, 64]}>
