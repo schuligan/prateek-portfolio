@@ -66,6 +66,7 @@ function RepoGrid({
           key={capability.id}
           hook={capability.title}
           useCase={"blurb" in capability ? capability.blurb : ""}
+          thumbSrc={`/card-art/${capability.id}.svg`}
         />
       ))}
     </div>
@@ -104,6 +105,7 @@ function Panel({
               key={project.id}
               hook={project.title}
               useCase={"blurb" in project ? project.blurb : ""}
+              thumbSrc={`/card-art/${project.id}.svg`}
             />
           ))}
         </div>
