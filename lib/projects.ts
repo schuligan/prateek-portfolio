@@ -151,6 +151,13 @@ export const projects: Project[] = [
     blurb:
       "On-device LLM cleans and classifies sensitive data, ships SQL, end-to-end analysis. Nothing leaves the machine.",
   },
+  {
+    id: "orchestrator-led-agent-team",
+    kind: "capability",
+    title: "Orchestrator-Led Agent Team",
+    blurb:
+      "One conversation with an orchestrator; a specialist agent team carries the work end to end. Built for tokenization and periodic KYC refresh in a regulated environment — humans stay on the decisions, agents take the throughput.",
+  },
 
   // --- Current: work in flight right now ---
   {
@@ -166,5 +173,26 @@ export const projects: Project[] = [
     title: "Stablecoin Payments Platform",
     blurb:
       "Product Owner for a stablecoin payments platform — driving spec to ship in a regulated fintech environment.",
+  },
+  {
+    id: "vessel",
+    kind: "current",
+    title: "Vessel",
+    blurb:
+      "An embodiment layer for AI agents: give any agent a name, an animated face, a voice and a personality. Live, interruptible conversation instead of a chat box — it wraps your agent rather than replacing its brain.",
+  },
+  {
+    id: "singularity",
+    kind: "current",
+    title: "Singularity",
+    blurb:
+      "A user-owned data-to-value network — coordination across sovereign human and machine intelligence, built contract-first from a written product constitution through to running agent services.",
+  },
+  {
+    id: "work-triage-system",
+    kind: "current",
+    title: "Work Triage System",
+    blurb:
+      "Capture a request from anywhere — a phone screenshot, an upload, a typed line — triage it through a priority matrix into Do / Schedule / Delegate / Drop, and get a daily digest so nothing is silently forgotten.",
   },
 ];
