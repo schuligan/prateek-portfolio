@@ -18,7 +18,7 @@ const flagshipProjects = siteContent.projects.filter(
  */
 export function Hero() {
   return (
-    <section className="flex w-full max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+    <section className="flex w-full max-w-5xl flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-12 lg:gap-16">
       <div className="flex-1 text-center lg:text-left">
         <KineticHeading
           text={siteContent.headline}

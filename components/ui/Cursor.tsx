@@ -42,7 +42,15 @@ export function Cursor() {
       targetScale = hoveredInteractive ? HOVER_SCALE : 1;
     };
 
+    // Hide the dot when the pointer leaves the window, so it never sits
+    // parked against an edge after the mouse is gone.
+    const handleLeave = () => {
+      dot.style.opacity = "0";
+    };
+
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    document.addEventListener("pointerleave", handleLeave);
+    window.addEventListener("blur", handleLeave);
 
     const tick = () => {
       if (reducedMotion) {
@@ -62,6 +70,8 @@ export function Cursor() {
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerleave", handleLeave);
+      window.removeEventListener("blur", handleLeave);
       cancelAnimationFrame(frame);
     };
   }, []);
